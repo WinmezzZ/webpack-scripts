@@ -26,10 +26,11 @@ if (fs.readFileSync(configPath)) {
     /** @type {import('../typings/index').CaibeikeScriptsConfig} */
     const userConfig = require(configPath);
 
-    userConfig.devServer.port = parseInt(userConfig.devServer.port, 10);
     finalConfig = merge(defaultconfig, userConfig);
 } else {
     finalConfig = defaultconfig;
 }
+
+finalConfig.devServer.port = parseInt(finalConfig.devServer.port, 10);
 
 module.exports = finalConfig;
