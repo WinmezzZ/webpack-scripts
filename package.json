@@ -1,6 +1,6 @@
 {
     "name": "@cbk/webpack-scripts",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "彩贝壳前端 react 项目 webpack 启动器",
     "author": {
         "name": "星星",
@@ -19,7 +19,8 @@
         "config",
         "lib",
         "scripts",
-        "typings"
+        "typings",
+        "utils"
     ],
     "engines": {
         "node": "^10.12.0 || >=12.0.0"
