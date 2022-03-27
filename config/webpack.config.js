@@ -14,24 +14,23 @@ const clearConsole = require('react-dev-utils/clearConsole');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const { getIPAdress } = require('../scripts/utils');
 const getClientEnvironment = require('./env');
-const paths = require('./paths')
+const paths = require('./paths');
 const config = require('../config/getConfig');
 
 const {
-    port: DEFAULT_PORT,
-    https: HTTPS,
+    devServer: { port: DEFAULT_PORT, https: HTTPS },
     publicPath,
     sourcemap: shouldUseSourceMap,
     modifyVars: MODIFY_VARS,
     alias: ALIAS,
-} = config
+} = config;
 
 const env = getClientEnvironment();
 const protocol = HTTPS === 'true' ? 'https' : 'http';
 
-/** 
- * @param webpackEnv {'devolopment' | 'production'} 
- * @return {import('webpack').Configuration} 
+/**
+ * @param webpackEnv {'devolopment' | 'production'}
+ * @return {import('webpack').Configuration}
  */
 module.exports = webpackEnv => {
     const isProd = webpackEnv === 'production';
@@ -128,7 +127,9 @@ module.exports = webpackEnv => {
                         clearConsole();
                         console.log(`开发服务器地址：\n`);
                         console.log(`> 本地: ` + chalk.cyan.underline(`${protocol}://localhost:${DEFAULT_PORT}/`));
-                        console.log(`> 内网: ` + chalk.cyan.underline(`${protocol}://${getIPAdress()}:${DEFAULT_PORT}/\n`));
+                        console.log(
+                            `> 内网: ` + chalk.cyan.underline(`${protocol}://${getIPAdress()}:${DEFAULT_PORT}/\n`),
+                        );
                     },
                 }),
             isProd &&
@@ -189,7 +190,7 @@ module.exports = webpackEnv => {
                 '~': path.resolve(process.cwd(), 'assets'),
                 assets: path.resolve(process.cwd(), 'assets'),
                 location: path.resolve(process.cwd(), 'location.js'),
-                ...ALIAS
+                ...ALIAS,
             },
         },
         performance: {
@@ -249,7 +250,7 @@ module.exports = webpackEnv => {
     };
 
     // 允许外部配置文件二次配置 webpack
-    const assingedWebpackConfig = config.webpack(webpackConfig)
+    const assingedWebpackConfig = config.webpack(webpackConfig) || webpackConfig;
 
-    return assingedWebpackConfig
+    return assingedWebpackConfig;
 };

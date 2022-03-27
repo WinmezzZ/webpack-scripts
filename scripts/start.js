@@ -12,11 +12,8 @@ const config = require('../config/getConfig');
 
 const env = process.env.NODE_ENV;
 const {
-    port: DEFAULT_PORT,
-    host: HOST,
-    https: HTTPS,
-    proxy: PROXY
-} = config
+    devServer: { port: DEFAULT_PORT, host: HOST, https: HTTPS, proxy: PROXY },
+} = config;
 
 const protocol = HTTPS === true ? 'https' : 'http';
 const urls = prepareUrls(protocol, HOST, DEFAULT_PORT);

@@ -3,9 +3,9 @@ const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware')
 const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware');
 const { appPublic } = require('./paths');
 
-/** 
- * @param config {import('webpack-dev-server').Configuration} 
- * @return {import('webpack-dev-server').Configuration} 
+/**
+ * @param config {import('webpack-dev-server').Configuration}
+ * @return {import('webpack-dev-server').Configuration}
  */
 module.exports = (config = {}) => {
     return {

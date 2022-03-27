@@ -10,13 +10,9 @@ const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const printBuildError = require('react-dev-utils/printBuildError');
 const webpackConfig = require('../config/webpack.config');
 const config = require('../config/getConfig');
-const { appBuild } = require('../config/paths')
+const { appBuild } = require('../config/paths');
 
-const {
-   publicPath,
-   buildDir,
-   disabledBundleSize
-} = config
+const { publicPath, buildDir, disabledBundleSize } = config;
 const env = process.env.NODE_ENV;
 const buildPath = appBuild;
 
@@ -103,8 +99,8 @@ measureFileSizesBeforeBuild(buildPath)
             console.log(`更多构建配置可以看这里：\n`);
             console.log(
                 chalk.underline(
-                `  https://git.caibeike.net/static/caibeike-ops-static/tree/feature_npm_run_serve#%E9%85%8D%E7%BD%AE\n`
-                )
+                    `  https://git.caibeike.net/static/caibeike-ops-static/tree/feature_npm_run_serve#%E9%85%8D%E7%BD%AE\n`,
+                ),
             );
         },
         err => {
