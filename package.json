@@ -1,13 +1,13 @@
 {
-    "name": "caibeike-scripts",
-    "version": "0.0.1",
+    "name": "@cbk/webpack-scripts",
+    "version": "0.0.2",
     "description": "彩贝壳前端 react 项目 webpack 启动器",
     "author": {
         "name": "星星",
         "email": "xingxing@caibeike.com"
     },
     "bin": {
-        "caibeike-scripts": "./bin/caibeike-scripts.js"
+        "caibeike": "./bin/caibeike-scripts.js"
     },
     "typings": "typings/index.d.ts",
     "publishConfig": {
