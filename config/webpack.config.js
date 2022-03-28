@@ -12,8 +12,10 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const clearConsole = require('react-dev-utils/clearConsole');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const babelConfig = require('./babel.config');
 const babelMerge = require('babel-merge');
+const merge = require('../utils/merge');
+const postcssConfig = require('./postcss.config');
+const babelConfig = require('./babel.config');
 const { getIPAdress } = require('../scripts/utils');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
@@ -26,6 +28,7 @@ const {
     modifyVars: MODIFY_VARS,
     alias: ALIAS,
     babel: BABEL,
+    postcss: POSTCSS,
     webpack: WEBPACK,
 } = config;
 
@@ -97,9 +100,7 @@ module.exports = webpackEnv => {
                             loader: 'postcss-loader',
                             options: {
                                 sourceMap: isProd ? SOURCEMAP : true,
-                                config: {
-                                    path: 'postcss.config.js',
-                                },
+                                config: merge(postcssConfig, POSTCSS),
                             },
                         },
                         {

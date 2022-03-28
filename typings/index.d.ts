@@ -1,6 +1,7 @@
 import type { Configuration as WebpackConfig } from 'webpack';
 import type { Configuration as DevServerConfig } from 'webpack-dev-server';
 import type { TransformOptions as BabelOption } from '@babel/core';
+import * as Postcss from 'postcss';
 
 export interface CaibeikeScriptsConfig {
     /**
@@ -31,6 +32,12 @@ export interface CaibeikeScriptsConfig {
      * babel 配置，默认配置已经支持 react + ts 环境，如果需要额外配置，会自动合并
      */
     babel?: BabelOption;
+    /**
+     * postcss 配置，默认配置了 autoprefixer 插件，如果需要额外配置，会自动合并
+     */
+    postcss?: Postcss.ProcessOptions & {
+        plugins: Postcss.Plugin[];
+    };
     /**
      * 是否禁用打包文件 size 输出信息
      * @default false

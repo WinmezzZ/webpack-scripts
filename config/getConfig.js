@@ -17,6 +17,7 @@ const defaultconfig = {
     alias: {},
     modifyVars: {},
     babel: {},
+    postcss: {},
 };
 
 const configPath = path.resolve(process.cwd(), 'caibeike-scripts.config.js');
