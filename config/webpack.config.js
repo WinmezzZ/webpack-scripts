@@ -181,6 +181,8 @@ module.exports = webpackEnv => {
                     : undefined),
             }),
             new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+            // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         ].filter(Boolean),
         resolve: {
             modules: [paths.appSrc, 'node_modules'],
