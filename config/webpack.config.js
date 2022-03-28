@@ -29,8 +29,6 @@ const {
     webpack: WEBPACK,
 } = config;
 
-console.log(babelMerge(babelConfig, BABEL));
-
 const env = getClientEnvironment();
 const protocol = HTTPS === 'true' ? 'https' : 'http';
 
