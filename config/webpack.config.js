@@ -263,10 +263,14 @@ module.exports = webpackEnv => {
     };
 
     // 允许外部配置文件二次配置 webpack
-    const mergedWebpackConfig = typeof WEBPACK === 'function' && WEBPACK(webpackConfig);
+    let mergedWebpackConfig = webpackConfig;
 
-    if (!mergedWebpackConfig) {
-        throw new Error('请在 webpack 属性函数中 return 出新的 webpack 配置!');
+    if (typeof WEBPACK === 'function') {
+        mergedWebpackConfig = WEBPACK(webpackConfig);
+        if (!mergedWebpackConfig) {
+            console.error('请在 webpack 属性函数中 return 出新的 webpack 配置!');
+            process.exit(1);
+        }
     }
 
     return mergedWebpackConfig;
