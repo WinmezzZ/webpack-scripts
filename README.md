@@ -2,10 +2,10 @@
 
 彩贝壳前端项目 webpack 启动器
 
-### 使用
+## 安装
 
 ```bash
-npm install @cbk/webpack-scripts
+npm install @cbk/webpack-scripts -D
 ```
 
 然后在 `package.json` 修改启动与打包命令脚本
@@ -19,23 +19,26 @@ npm install @cbk/webpack-scripts
 }
 ```
 
-以下为基本默认配置信息
+## 说明
 
-#### 入口文件
+如果是公司老项目，基本无需配置太多，该插件包含了所有主流用到的 `loader`, `plugin`，和公司项目通用配置
 
-`src/containers/index`
+如果是一个全新项目，只要遵循以下 2 个默认配置，即可快速创建一个 `react` 项目
 
-> 会自动检测是 js 文件还是 ts 文件
+> 记得安装 `react` 和 `react-dom`
 
-#### 别名
+-   入口文件: `src/containers/index` 会自动检测是 js 文件还是 ts 文件
+-   html 模板文件：`public/index.html`
 
-### 配置文件
+如果你没办法修改或者不喜欢上述默认配置路径，同样可以通过设置配置文件去修改它们以及更多定制化的需求
+
+## 配置文件
 
 可以在项目下创建 `caibeike-scripts.config.js`，使用 commonjs 语法导出配置对象
 
 也可以通过 `const { defineConfig } = require('@cbk/webpack-scripts');`，使用 `defineConfig` 函数包裹导出对象，这样能够获得属性提醒
 
-### 参数
+## 参数
 
 #### publicPath
 
