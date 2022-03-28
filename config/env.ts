@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
@@ -52,4 +52,4 @@ function getClientEnvironment() {
     return { raw, stringified };
 }
 
-module.exports = getClientEnvironment;
+export default getClientEnvironment;

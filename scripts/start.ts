@@ -1,14 +1,14 @@
 process.env.NODE_ENV = 'development';
 
-const chalk = require('chalk');
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const openBrowser = require('react-dev-utils/openBrowser');
-const { prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
-const clearConsole = require('react-dev-utils/clearConsole');
-const devserverConfig = require('../config/devserver.config');
-const webpackConfig = require('../config/webpack.config');
-const config = require('../config/getConfig');
+import chalk from 'chalk';
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import openBrowser from 'react-dev-utils/openBrowser';
+import { prepareUrls } from 'react-dev-utils/WebpackDevServerUtils';
+import clearConsole from 'react-dev-utils/clearConsole';
+import devserverConfig from '../config/devserver.config';
+import webpackConfig from '../config/webpack.config';
+import config from '../config/getConfig';
 
 const env = process.env.NODE_ENV;
 const {

@@ -1,20 +1,19 @@
 process.env.NODE_ENV = 'production';
 
 require('../config/env');
-const path = require('path');
-const chalk = require('chalk');
-const fs = require('fs');
-const webpack = require('webpack');
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
-const printBuildError = require('react-dev-utils/printBuildError');
-const webpackConfig = require('../config/webpack.config');
-const config = require('../config/getConfig');
-const { appBuild } = require('../config/paths');
+import chalk from 'chalk';
+import fs from 'fs';
+import webpack from 'webpack';
+import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
+import FileSizeReporter from 'react-dev-utils/FileSizeReporter';
+import printBuildError from 'react-dev-utils/printBuildError';
+import webpackConfig from '../config/webpack.config';
+import config from '../config/getConfig';
+import paths from '../config/paths';
 
 const { publicPath, buildDir, disabledBundleSize } = config;
-const env = process.env.NODE_ENV;
-const buildPath = appBuild;
+const env: any = process.env.NODE_ENV;
+const buildPath = paths.appBuild;
 
 const measureFileSizesBeforeBuild = FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
@@ -23,11 +22,11 @@ const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
-const build = previousFileSizes => {
+const build = (previousFileSizes: any) => {
     console.log('开始打包...');
     const compiler = webpack(webpackConfig(env));
     return new Promise((resolve, reject) => {
-        compiler.run((err, stats) => {
+        compiler.run((err: any, stats) => {
             let messages;
             if (err) {
                 if (!err.message) {
@@ -71,7 +70,7 @@ measureFileSizesBeforeBuild(buildPath)
         return build(previousFileSizes);
     })
     .then(
-        ({ stats, previousFileSizes, warnings }) => {
+        ({ stats, previousFileSizes, warnings }: any) => {
             if (warnings.length) {
                 console.log(chalk.yellow('警告：\n'));
                 console.log(warnings.join('\n\n'));

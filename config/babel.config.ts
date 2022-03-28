@@ -7,7 +7,7 @@ const hasJsxRuntime = (() => {
     }
 })();
 
-module.exports = {
+export default {
     presets: [
         '@babel/preset-env',
         ['@babel/preset-react', { runtime: hasJsxRuntime ? 'automatic' : 'classic' }],
