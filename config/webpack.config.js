@@ -162,25 +162,27 @@ module.exports = webpackEnv => {
                     ...env.stringified['process.env'],
                 },
             }),
-            new HtmlWebpackPlugin({
-                template: paths.appHtml,
-                ...(isProd
-                    ? {
-                          minify: {
-                              removeComments: true,
-                              collapseWhitespace: true,
-                              removeRedundantAttributes: true,
-                              useShortDoctype: true,
-                              removeEmptyAttributes: true,
-                              removeStyleLinkTypeAttributes: true,
-                              keepClosingSlash: true,
-                              minifyJS: true,
-                              minifyCSS: true,
-                              minifyURLs: true,
-                          },
-                      }
-                    : undefined),
-            }),
+            /** 如果 */
+            Object.keys(webpackConfig.entry).length === 1 &&
+                new HtmlWebpackPlugin({
+                    template: paths.appHtml,
+                    ...(isProd
+                        ? {
+                              minify: {
+                                  removeComments: true,
+                                  collapseWhitespace: true,
+                                  removeRedundantAttributes: true,
+                                  useShortDoctype: true,
+                                  removeEmptyAttributes: true,
+                                  removeStyleLinkTypeAttributes: true,
+                                  keepClosingSlash: true,
+                                  minifyJS: true,
+                                  minifyCSS: true,
+                                  minifyURLs: true,
+                              },
+                          }
+                        : undefined),
+                }),
             new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
