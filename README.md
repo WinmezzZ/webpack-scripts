@@ -19,6 +19,13 @@ npm install @cbk/webpack-scripts -D
 }
 ```
 
+## 特性
+
+-   支持热更新，热模块替换
+-   开发环境的输出信息简介明了，打包输出信息完整
+-   支持 typescript
+-   封装了所有复杂的 webpack，仅需通过配置文件修改少量的配置
+
 ## 说明
 
 如果是公司老项目，基本无需配置太多，该插件包含了所有主流用到的 `loader`, `plugin`，和公司项目通用配置
@@ -46,6 +53,16 @@ npm install @cbk/webpack-scripts -D
 -   默认值: `/`
 
 公共路径，等同于 `webpack` `output` 中的 `publicPath`
+
+示例：
+
+```js
+const { defineConfig } = require('@cbk/webpack-scripts');
+
+module.exports = defineConfig({
+    publicPath: process.env.NODE_ENV === 'production' ? '/ops/p/res/' : '/',
+});
+```
 
 #### buildDir
 
