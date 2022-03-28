@@ -29,7 +29,7 @@ const resolveModule = (resolveFn, filePath) => {
     return resolveFn(`${filePath}.js`);
 };
 
-const resolveHtmlTemplatePath = (() => {
+const resolveHtmlTemplatePath = () => {
     const htmlPath = config.htmlTemplatePath || resolveApp('public/index.html');
 
     if (!fs.existsSync(htmlPath)) {
@@ -46,13 +46,13 @@ const resolveHtmlTemplatePath = (() => {
     }
 
     return htmlPath;
-})();
+};
 
 module.exports = {
     dotenv: resolveApp('.env'),
     appPath: resolveApp('.'),
     appBuild: resolveApp(config.buildDir),
-    appHtml: resolveHtmlTemplatePath,
+    appHtml: resolveHtmlTemplatePath(),
     appIndexJs: resolveModule(resolveApp, 'src/containers/index'),
     appPackageJson: resolveApp('package.json'),
     appPublic: resolveApp('public'),
