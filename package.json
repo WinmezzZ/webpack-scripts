@@ -9,11 +9,6 @@
     "bin": {
         "cbk": "./bin/caibeike-scripts.js"
     },
-    "scripts": {
-        "build": "rollup -c rollup.config.js",
-        "lint": "eslint . --ext js,ts,tsx",
-        "format": "prettier --write **/*.{js,ts} && eslint . --ext js,ts --fix"
-    },
     "main": "src/index.js",
     "typings": "typings/index.d.ts",
     "publishConfig": {
@@ -56,7 +51,6 @@
         "@babel/preset-react": "^7.16.7",
         "@babel/preset-typescript": "^7.16.7",
         "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
-        "@types/react-dev-utils": "^9.0.10",
         "@types/webpack": "4.4.0",
         "@types/webpack-dev-server": "3.9.0",
         "@typescript-eslint/eslint-plugin": "^5.15.0",
@@ -105,10 +99,5 @@
         "webpack-filter-warnings-plugin": "^1.2.1",
         "webpack-hot-middleware": "^2.24.3",
         "webpackbar": "^5.0.2"
-    },
-    "devDependencies": {
-        "@cbk/eslint-config": "^0.0.1",
-        "@rollup/plugin-typescript": "^8.3.1",
-        "rollup": "^2.70.1"
     }
 }

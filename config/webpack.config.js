@@ -1,26 +1,25 @@
-import path from 'path';
-import chalk from 'chalk';
-import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ProgressBarPlugin from 'progress-bar-webpack-plugin';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import ErrorOverlayPlugin from 'react-error-overlay-webpack-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import FilterWarningsPlugin from 'webpack-filter-warnings-plugin';
-import OptimizeCSSPlugin from 'optimize-css-assets-webpack-plugin';
-import safePostCssParser from 'postcss-safe-parser';
-import clearConsole from 'react-dev-utils/clearConsole';
-import InterpolateHtmlPlugin from 'react-dev-utils/InterpolateHtmlPlugin';
-import babelMerge from 'babel-merge';
-import merge from '../utils/merge';
-import postcssConfig from './postcss.config';
-import babelConfig from './babel.config';
-import { getIPAdress } from '../scripts/utils';
-import getClientEnvironment from './env';
-import paths from './paths';
-import config from '../config/getConfig';
-import type { Configuration } from 'webpack';
+const path = require('path');
+const chalk = require('chalk');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ErrorOverlayPlugin = require('react-error-overlay-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const safePostCssParser = require('postcss-safe-parser');
+const clearConsole = require('react-dev-utils/clearConsole');
+const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const babelMerge = require('babel-merge');
+const merge = require('../utils/merge');
+const postcssConfig = require('./postcss.config');
+const babelConfig = require('./babel.config');
+const { getIPAdress } = require('../scripts/utils');
+const getClientEnvironment = require('./env');
+const paths = require('./paths');
+const config = require('../config/getConfig');
 
 const {
     devServer: { port: DEFAULT_PORT, https: HTTPS },
@@ -36,11 +35,16 @@ const {
 const env = getClientEnvironment();
 const protocol = HTTPS === 'true' ? 'https' : 'http';
 
-export default (webpackEnv: Configuration): Configuration => {
+/**
+ * @param webpackEnv {'devolopment' | 'production'}
+ * @return {import('webpack').Configuration}
+ */
+module.exports = webpackEnv => {
     const isProd = webpackEnv === 'production';
 
-    const webpackConfig: Configuration = {
-        mode: process.env.NODE_ENV as Configuration['mode'],
+    /** @type {import('webpack').Configuration} */
+    const webpackConfig = {
+        mode: process.env.NODE_ENV,
         entry: {
             index: ['@babel/polyfill', paths.appIndexJs],
         },
@@ -130,7 +134,7 @@ export default (webpackEnv: Configuration): Configuration => {
                 new ProgressBarPlugin({
                     format: '  编译中 [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed 秒)',
                     summary: false,
-                    customSummary(second: string) {
+                    customSummary(second) {
                         console.log(chalk.white.bgGreen('编译完成') + ` 耗时 ${second.replace('s', '')} 秒`);
                     },
                     callback() {
@@ -244,6 +248,7 @@ export default (webpackEnv: Configuration): Configuration => {
                 minChunks: 2,
                 maxAsyncRequests: 5,
                 maxInitialRequests: 3,
+                automaticNameDelimiter: '~',
                 name: true,
                 cacheGroups: {
                     vendor: {

@@ -1,5 +1,11 @@
-const config = require('@cbk/eslint-config/prettier')
-
 module.exports = {
-    ...config
+    printWidth: 120,
+    tabWidth: 4,
+    useTabs: false,
+    singleQuote: true,
+    semi: true,
+    trailingComma: "all",
+    bracketSpacing: true,
+    arrowParens: "avoid",
+    endOfLine: "auto",
 };

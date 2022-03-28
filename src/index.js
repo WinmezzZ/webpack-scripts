@@ -1,1 +1,1 @@
-exports.defineConfig = function (_config) {};
+exports.defineConfig = function (config) {};

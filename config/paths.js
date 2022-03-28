@@ -1,10 +1,10 @@
-import fs from 'fs';
-import path from 'path';
-import chalk from 'chalk';
-import config from '../config/getConfig';
+const fs = require('fs');
+const path = require('path');
+const chalk = require('chalk');
+const config = require('../config/getConfig');
 
 const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = (relativePath: string) => path.resolve(appDirectory, relativePath);
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const moduleFileExtensions = [
     'web.mjs',
     'mjs',
@@ -19,7 +19,7 @@ const moduleFileExtensions = [
     'jsx',
 ];
 
-const resolveModule = (resolveFn: (path: string) => string, filePath: string) => {
+const resolveModule = (resolveFn, filePath) => {
     const extension = moduleFileExtensions.find(extension => fs.existsSync(resolveFn(`${filePath}.${extension}`)));
 
     if (extension) {
@@ -48,7 +48,7 @@ const resolveHtmlTemplatePath = () => {
     return htmlPath;
 };
 
-export default {
+module.exports = {
     dotenv: resolveApp('.env'),
     appPath: resolveApp('.'),
     appBuild: resolveApp(config.buildDir),
