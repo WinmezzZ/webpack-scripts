@@ -261,7 +261,11 @@ module.exports = webpackEnv => {
     };
 
     // 允许外部配置文件二次配置 webpack
-    const assingedWebpackConfig = config.webpack(webpackConfig) || webpackConfig;
+    const assingedWebpackConfig = config.webpack(webpackConfig);
+
+    if (!assingedWebpackConfig) {
+        throw new Error('请在 webpack 属性函数中 return 出新的 webpack 配置!');
+    }
 
     return assingedWebpackConfig;
 };
