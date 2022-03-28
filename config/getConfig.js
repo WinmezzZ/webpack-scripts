@@ -10,7 +10,7 @@ const defaultconfig = {
     },
     buildDir: 'dist',
     publicPath: '/',
-    htmlTemplatePath: path.resolve(process.cwd(), 'public/index.html'),
+    // htmlTemplatePath: '',
     sourcemap: false,
     // webpack: () => {},
     disabledBundleSize: false,
