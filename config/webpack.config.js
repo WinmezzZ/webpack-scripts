@@ -12,6 +12,8 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
 const clearConsole = require('react-dev-utils/clearConsole');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+const babelConfig = require('./babel.config');
+const babelMerge = require('../utils/babel-merge');
 const { getIPAdress } = require('../scripts/utils');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
@@ -59,6 +61,10 @@ module.exports = webpackEnv => {
                     test: /\.(js|mjs|jsx|ts|tsx)$/,
                     exclude: /node_modules/,
                     use: 'babel-loader',
+                    options: {
+                        babelrc: false,
+                        ...babelMerge(babelConfig, config.babel),
+                    },
                 },
                 {
                     test: /\.(c|le)ss$/,

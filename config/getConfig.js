@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const merge = require('../utils/merge');
+const merge = require('deepmerge');
 
 /** @type {import('../typings/index').CaibeikeScriptsConfig} */
 const defaultconfig = {
@@ -14,8 +14,9 @@ const defaultconfig = {
     entry: 'src/containers/index',
     webpack: () => {},
     disabledBundleSize: false,
-    // alias: {},
-    // modifyVars: {}
+    alias: {},
+    modifyVars: {},
+    babel: {},
 };
 
 const configPath = path.resolve(process.cwd(), 'caibeike-scripts.config.js');
