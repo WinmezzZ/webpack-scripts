@@ -6,7 +6,7 @@ function arrayMerge(source = [], overrides = []) {
     return [...new Set([...source, ...overrides])];
 }
 
-function mergeArray(source = [], overrides = [], resolve) {
+function mergeArray(source = [], overrides = [], resolve, deepmergeOpts) {
     return [...source, ...overrides].reduce((reduction, override) => {
         const overrideName = resolve(Array.isArray(override) ? override[0] : override);
         const overrideOptions = Array.isArray(override) ? override[1] : {};
