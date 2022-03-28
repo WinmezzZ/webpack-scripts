@@ -37,6 +37,7 @@ const protocol = HTTPS === 'true' ? 'https' : 'http';
 module.exports = webpackEnv => {
     const isProd = webpackEnv === 'production';
 
+    /** @type {import('webpack').Configuration} */
     const webpackConfig = {
         mode: process.env.NODE_ENV,
         entry: {
@@ -60,11 +61,15 @@ module.exports = webpackEnv => {
                 {
                     test: /\.(js|mjs|jsx|ts|tsx)$/,
                     exclude: /node_modules/,
-                    use: 'babel-loader',
-                    options: {
-                        babelrc: false,
-                        ...babelMerge(babelConfig, config.babel),
-                    },
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                babelrc: false,
+                                ...babelMerge(babelConfig, config.babel),
+                            },
+                        },
+                    ],
                 },
                 {
                     test: /\.(c|le)ss$/,
