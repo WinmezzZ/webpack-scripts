@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const merge = require('deepmerge');
+const merge = require('../utils/merge');
 
 /** @type {import('../typings/index').CaibeikeScriptsConfig} */
 const defaultconfig = {

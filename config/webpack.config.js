@@ -13,7 +13,7 @@ const safePostCssParser = require('postcss-safe-parser');
 const clearConsole = require('react-dev-utils/clearConsole');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const babelConfig = require('./babel.config');
-const babelMerge = require('../utils/babel-merge');
+const babelMerge = require('babel-merge');
 const { getIPAdress } = require('../scripts/utils');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
@@ -21,11 +21,15 @@ const config = require('../config/getConfig');
 
 const {
     devServer: { port: DEFAULT_PORT, https: HTTPS },
-    publicPath,
-    sourcemap: shouldUseSourceMap,
+    publicPath: PUBLIC_PATH,
+    sourcemap: SOURCEMAP,
     modifyVars: MODIFY_VARS,
     alias: ALIAS,
+    babel: BABEL,
+    webpack: WEBPACK,
 } = config;
+
+console.log(babelMerge(babelConfig, BABEL));
 
 const env = getClientEnvironment();
 const protocol = HTTPS === 'true' ? 'https' : 'http';
@@ -45,12 +49,12 @@ module.exports = webpackEnv => {
         },
         output: {
             path: isProd ? paths.appBuild : undefined,
-            publicPath: publicPath,
+            publicPath: PUBLIC_PATH,
             filename: isProd ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
             chunkFilename: isProd ? 'js/[name].chunk.[chunkhash:8].js' : 'js/[name].chunk.js',
             devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
         },
-        devtool: isProd ? (shouldUseSourceMap ? 'source-map' : false) : 'cheap-module-source-map',
+        devtool: isProd ? (SOURCEMAP ? 'source-map' : false) : 'cheap-module-source-map',
         module: {
             rules: [
                 {
@@ -66,7 +70,7 @@ module.exports = webpackEnv => {
                             loader: 'babel-loader',
                             options: {
                                 babelrc: false,
-                                ...babelMerge(babelConfig, config.babel),
+                                ...babelMerge(babelConfig, BABEL),
                             },
                         },
                     ],
@@ -85,7 +89,7 @@ module.exports = webpackEnv => {
                         {
                             loader: 'css-loader',
                             options: {
-                                sourceMap: isProd ? shouldUseSourceMap : true,
+                                sourceMap: isProd ? SOURCEMAP : true,
                                 modules: true,
                                 importLoaders: 2,
                                 localIdentName: '[local]',
@@ -94,7 +98,7 @@ module.exports = webpackEnv => {
                         {
                             loader: 'postcss-loader',
                             options: {
-                                sourceMap: isProd ? shouldUseSourceMap : true,
+                                sourceMap: isProd ? SOURCEMAP : true,
                                 config: {
                                     path: 'postcss.config.js',
                                 },
@@ -105,7 +109,7 @@ module.exports = webpackEnv => {
                             options: {
                                 modifyVars: MODIFY_VARS,
                                 javascriptEnabled: true,
-                                sourceMap: isProd ? shouldUseSourceMap : true,
+                                sourceMap: isProd ? SOURCEMAP : true,
                             },
                         },
                     ],
@@ -261,7 +265,7 @@ module.exports = webpackEnv => {
     };
 
     // 允许外部配置文件二次配置 webpack
-    const mergedWebpackConfig = typeof config.webpack === 'function' && config.webpack(webpackConfig);
+    const mergedWebpackConfig = typeof WEBPACK === 'function' && WEBPACK(webpackConfig);
 
     if (!mergedWebpackConfig) {
         throw new Error('请在 webpack 属性函数中 return 出新的 webpack 配置!');
