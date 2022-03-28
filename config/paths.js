@@ -30,7 +30,7 @@ const resolveModule = (resolveFn, filePath) => {
 };
 
 const resolveHtmlTemplatePath = (() => {
-    const htmlPath = resolveApp(config.htmlTemplatePath || resolveApp('public/index.html'));
+    const htmlPath = config.htmlTemplatePath || resolveApp('public/index.html');
 
     if (!fs.existsSync(htmlPath)) {
         if (config.htmlTemplatePath) {
