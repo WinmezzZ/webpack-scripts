@@ -1,5 +1,18 @@
+const hasJsxRuntime = (() => {
+    try {
+        require.resolve('react/jsx-runtime');
+        return true;
+    } catch (e) {
+        return false;
+    }
+})();
+
 module.exports = {
-    presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+    presets: [
+        '@babel/preset-env',
+        ['@babel/preset-react', { runtime: hasJsxRuntime ? 'automatic' : 'classic' }],
+        '@babel/preset-typescript',
+    ],
     plugins: [
         '@babel/plugin-transform-block-scoping',
         ['@babel/plugin-proposal-decorators', { legacy: true }],
