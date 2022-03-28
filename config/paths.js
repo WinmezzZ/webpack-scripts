@@ -33,7 +33,7 @@ module.exports = {
     appPath: resolveApp('.'),
     appBuild: resolveApp(config.buildDir),
     appHtml: resolveApp('src/containers/index.html'),
-    appIndexJs: resolveModule(resolveApp, config.entry),
+    appIndexJs: resolveModule(resolveApp, 'src/containers/index'),
     appPackageJson: resolveApp('package.json'),
     appPublic: resolveApp('public'),
     appSrc: resolveApp('src'),

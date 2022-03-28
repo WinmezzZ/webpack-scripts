@@ -11,7 +11,6 @@ const defaultconfig = {
     buildDir: 'dist',
     publicPath: '/',
     sourcemap: false,
-    entry: 'src/containers/index',
     // webpack: () => {},
     disabledBundleSize: false,
     alias: {},

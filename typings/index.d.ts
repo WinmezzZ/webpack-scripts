@@ -19,11 +19,6 @@ export interface CaibeikeScriptsConfig {
      */
     sourcemap?: boolean;
     /**
-     * 入口文件路径
-     * @default 'src/containers/index'
-     */
-    entry?: string;
-    /**
      * 开发服务器 server 配置
      */
     devServer?: DevServerConfig;
