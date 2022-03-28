@@ -32,7 +32,7 @@ module.exports = {
     dotenv: resolveApp('.env'),
     appPath: resolveApp('.'),
     appBuild: resolveApp(config.buildDir),
-    appHtml: resolveApp('src/containers/index.html'),
+    appHtml: resolveApp(config.htmlTemplatePath),
     appIndexJs: resolveModule(resolveApp, 'src/containers/index'),
     appPackageJson: resolveApp('package.json'),
     appPublic: resolveApp('public'),

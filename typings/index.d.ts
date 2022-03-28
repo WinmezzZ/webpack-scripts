@@ -14,6 +14,11 @@ export interface CaibeikeScriptsConfig {
      */
     publicPath?: string;
     /**
+     * html 模板路径，默认在 `public/index.html` 中
+     * @default '/path/to/project/public/index.html'
+     */
+    htmlTemplatePath?: string;
+    /**
      * 是否开启生产环境 sourcemap
      * @default false
      */
