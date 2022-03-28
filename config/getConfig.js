@@ -12,7 +12,7 @@ const defaultconfig = {
     publicPath: '/',
     sourcemap: false,
     entry: 'src/containers/index',
-    webpack: () => {},
+    // webpack: () => {},
     disabledBundleSize: false,
     alias: {},
     modifyVars: {},
