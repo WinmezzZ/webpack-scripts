@@ -1,7 +1,7 @@
 import type { Configuration as WebpackConfig } from 'webpack';
 import type { Configuration as DevServerConfig } from 'webpack-dev-server';
 import type { TransformOptions as BabelOption } from '@babel/core';
-import * as Postcss from 'postcss';
+import type { ProcessOptions as PostcssProcessOptions, Plugin as PostcssPlugin } from 'postcss';
 
 export interface CaibeikeScriptsConfig {
     /**
@@ -35,8 +35,8 @@ export interface CaibeikeScriptsConfig {
     /**
      * postcss 配置，默认配置了 autoprefixer 插件，如果需要额外配置，会自动合并
      */
-    postcss?: Postcss.ProcessOptions & {
-        plugins: Postcss.Plugin[];
+    postcss?: PostcssProcessOptions & {
+        plugins?: PostcssPlugin[];
     };
     /**
      * 是否禁用打包文件 size 输出信息
@@ -57,4 +57,4 @@ export interface CaibeikeScriptsConfig {
     webpack?: (config: WebpackConfig) => WebpackConfig;
 }
 
-export function defineConfig(config: CaibeikeScriptsConfig): void;
+export function defineConfig(config: CaibeikeScriptsConfig): CaibeikeScriptsConfig;

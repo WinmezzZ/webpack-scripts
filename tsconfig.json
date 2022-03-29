@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "lib": ["ESNext"],
+        "skipLibCheck": true,
+        "esModuleInterop": false,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "declarationDir": "lib",
+        "declaration": true,
+        "baseUrl": "./"
+    },
+    "include": ["./config", "./scripts", "./src", "./utils", "env.d.ts"],
+    "exclude": ["node_modules"]
+}
