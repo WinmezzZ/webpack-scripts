@@ -16,7 +16,7 @@ import babelMerge from 'babel-merge';
 import merge from '../utils/merge';
 import postcssConfig from './postcss.config';
 import babelConfig from './babel.config';
-import { getIPAdress } from '../scripts/utils';
+import getIPAdress from '../scripts/utils';
 import getClientEnvironment from './env';
 import paths from './paths';
 import config from '../config/getConfig';
@@ -36,7 +36,7 @@ const {
 const env = getClientEnvironment();
 const protocol = HTTPS === 'true' ? 'https' : 'http';
 
-export default (webpackEnv: Configuration): Configuration => {
+export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
     const isProd = webpackEnv === 'production';
 
     const webpackConfig: Configuration = {
@@ -96,7 +96,7 @@ export default (webpackEnv: Configuration): Configuration => {
                             loader: 'postcss-loader',
                             options: {
                                 sourceMap: isProd ? SOURCEMAP : true,
-                                config: merge(postcssConfig, POSTCSS),
+                                ...merge(postcssConfig, POSTCSS),
                             },
                         },
                         {
@@ -158,27 +158,6 @@ export default (webpackEnv: Configuration): Configuration => {
                     ...env.stringified['process.env'],
                 },
             }),
-            /** 如果 */
-            Object.keys(webpackConfig.entry).length === 1 &&
-                new HtmlWebpackPlugin({
-                    template: paths.appHtml,
-                    ...(isProd
-                        ? {
-                              minify: {
-                                  removeComments: true,
-                                  collapseWhitespace: true,
-                                  removeRedundantAttributes: true,
-                                  useShortDoctype: true,
-                                  removeEmptyAttributes: true,
-                                  removeStyleLinkTypeAttributes: true,
-                                  keepClosingSlash: true,
-                                  minifyJS: true,
-                                  minifyCSS: true,
-                                  minifyURLs: true,
-                              },
-                          }
-                        : undefined),
-                }),
             new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -261,6 +240,30 @@ export default (webpackEnv: Configuration): Configuration => {
             },
         },
     };
+
+    if (webpackConfig.entry && Object.keys(webpackConfig.entry).length === 1) {
+        webpackConfig.plugins?.push(
+            new HtmlWebpackPlugin({
+                template: paths.appHtml,
+                ...(isProd
+                    ? {
+                          minify: {
+                              removeComments: true,
+                              collapseWhitespace: true,
+                              removeRedundantAttributes: true,
+                              useShortDoctype: true,
+                              removeEmptyAttributes: true,
+                              removeStyleLinkTypeAttributes: true,
+                              keepClosingSlash: true,
+                              minifyJS: true,
+                              minifyCSS: true,
+                              minifyURLs: true,
+                          },
+                      }
+                    : undefined),
+            }) as any,
+        );
+    }
 
     // 允许外部配置文件二次配置 webpack
     let mergedWebpackConfig;

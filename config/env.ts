@@ -29,7 +29,7 @@ function getClientEnvironment() {
     const raw = Object.keys(process.env)
         .filter(key => REACT_APP.test(key))
         .reduce(
-            (env, key) => {
+            (env: any, key) => {
                 env[key] = process.env[key];
                 return env;
             },
@@ -43,7 +43,7 @@ function getClientEnvironment() {
     // 字符串形式的process.env  提供给webpack DefinePlugin使用
     // 可以将前端代码中的process.env.XXX替换为对应的实际环境变量值
     const stringified = {
-        'process.env': Object.keys(raw).reduce((env, key) => {
+        'process.env': Object.keys(raw).reduce((env: any, key) => {
             env[key] = JSON.stringify(raw[key]);
             return env;
         }, {}),

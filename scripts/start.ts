@@ -1,5 +1,4 @@
-process.env.NODE_ENV = 'development';
-
+import '../config/env';
 import chalk from 'chalk';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
@@ -17,7 +16,7 @@ const {
 
 const protocol = HTTPS === true ? 'https' : 'http';
 const urls = prepareUrls(protocol, HOST, DEFAULT_PORT);
-const compiler = webpack(webpackConfig(env));
+const compiler: any = webpack(webpackConfig(env));
 const serverConfig = devserverConfig({
     port: DEFAULT_PORT,
     host: HOST,

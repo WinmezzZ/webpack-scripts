@@ -12,7 +12,7 @@ export default (config: Configuration = {}): Configuration => {
         overlay: false,
         contentBase: paths.appPublic,
         before(app, server) {
-            app.use(evalSourceMapMiddleware(server));
+            app.use(evalSourceMapMiddleware(server as any));
             app.use(errorOverlayMiddleware());
         },
         ...config,

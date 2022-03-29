@@ -1,5 +1,5 @@
-const config = require('@cbk/eslint-config/prettier')
+const config = require('@cbk/eslint-config/prettier');
 
 module.exports = {
-    ...config
+    ...config,
 };

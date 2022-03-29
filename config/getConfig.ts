@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { CaibeikeScriptsConfig } from '../typings';
 import merge from '../utils/merge';
 
 const defaultconfig = {
@@ -23,7 +24,7 @@ const configPath = path.resolve(process.cwd(), 'caibeike-scripts.config.js');
 
 const config = fs.readFileSync(configPath)
     ? merge(defaultconfig, require(configPath) as CaibeikeScriptsConfig)
-    : defaultconfig;
+    : merge(defaultconfig, {} as CaibeikeScriptsConfig);
 
 config.devServer.port = parseInt(config.devServer.port.toString(), 10);
 

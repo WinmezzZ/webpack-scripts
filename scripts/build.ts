@@ -1,6 +1,4 @@
-process.env.NODE_ENV = 'production';
-
-require('../config/env');
+import '../config/env';
 import chalk from 'chalk';
 import fs from 'fs';
 import webpack from 'webpack';
@@ -42,9 +40,11 @@ const build = (previousFileSizes: any) => {
                 messages = formatWebpackMessages({
                     errors: [errMessage],
                     warnings: [],
+                    _showErrors: true,
+                    _showWarnings: true,
                 });
             } else {
-                messages = formatWebpackMessages(stats.toJson({ all: false, warnings: true, errors: true }));
+                messages = formatWebpackMessages(stats.toJson({ warnings: true, errors: true }));
             }
             if (messages.errors.length) {
                 // 只取第一个错误
