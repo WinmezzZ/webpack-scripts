@@ -161,6 +161,10 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
             new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jQuery: 'jquery',
+            }),
         ].filter(Boolean),
         resolve: {
             modules: [paths.appSrc, 'node_modules'],
