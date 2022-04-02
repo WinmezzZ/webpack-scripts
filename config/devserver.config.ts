@@ -15,7 +15,7 @@ export default (config: Configuration = {}): Configuration => {
         before(app, server, compiler) {
             app.use(evalSourceMapMiddleware(server as any));
             app.use(errorOverlayMiddleware());
-            before?.(app, server, compiler);
+            before && before(app, server, compiler);
         },
         ...rest,
     };

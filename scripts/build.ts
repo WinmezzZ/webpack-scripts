@@ -96,11 +96,7 @@ measureFileSizesBeforeBuild(buildPath)
             console.log(`${chalk.cyan(buildDir)} 目录已经可以部署了\n`);
 
             console.log(`更多构建配置可以看这里：\n`);
-            console.log(
-                chalk.underline(
-                    `  https://git.caibeike.net/static/caibeike-ops-static/tree/feature_npm_run_serve#%E9%85%8D%E7%BD%AE\n`,
-                ),
-            );
+            console.log(chalk.underline(`  https://git.caibeike.net/lib/caibeike-scripts#caibeike-scripts\n`));
         },
         err => {
             console.log(chalk.yellow('以下类型错误编译（请检查 ts 语法，或忽略）:\n'));

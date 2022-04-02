@@ -304,7 +304,7 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
 
     // react-router3 将使用 webpack 原生热更新（react-refresh 不支持 router 3）
     const entites = REACT_ROUTER3
-        ? ['@babel/polyfill', 'webpack-dev-server/client' + '?/', 'webpack/hot/dev-server']
+        ? ['@babel/polyfill', ...(!isProd ? ['webpack-dev-server/client' + '?/', 'webpack/hot/dev-server'] : [])]
         : ['@babel/polyfill'];
     let entry: any;
     // 处理不同类型的 entry
@@ -325,15 +325,15 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
                 entry[key] = [...entites, resolve(value.entry)];
 
                 // 删除掉原本的 HtmlWebpackPlugin
-                const sourceHtmlPluginIndex = webpackConfig.plugins?.findIndex(
+                const sourceHtmlPluginIndex = webpackConfig.plugins!.findIndex(
                     ({ constructor }) => constructor && constructor.name === 'HtmlWebpackPlugin',
                 );
                 if (sourceHtmlPluginIndex && sourceHtmlPluginIndex >= 0) {
-                    webpackConfig.plugins?.splice(sourceHtmlPluginIndex, 1);
+                    webpackConfig.plugins!.splice(sourceHtmlPluginIndex, 1);
                 }
 
                 // 为多入口的每个入口单独设置 html 模板
-                webpackConfig.plugins?.push(
+                webpackConfig.plugins!.push(
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         template: value.htmlTemplatePath,
