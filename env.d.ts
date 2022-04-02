@@ -1,5 +1,5 @@
 declare module 'progress-bar-webpack-plugin';
-declare module 'react-error-overlay-webpack-plugin';
+declare module '@winme/react-overlay-webpack-plugin';
 declare module 'terser-webpack-plugin';
 declare module 'mini-css-extract-plugin';
 declare module 'webpack-filter-warnings-plugin';

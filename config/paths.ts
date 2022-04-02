@@ -30,13 +30,10 @@ const resolveModule = (resolveFn: (path: string) => string, filePath: string) =>
 };
 
 const resolveHtmlTemplatePath = () => {
-    const htmlPath = config.htmlTemplatePath || resolveApp('public/index.html');
-
+    const htmlPath = config.htmlTemplatePath ? resolveApp(config.htmlTemplatePath) : resolveApp('public/index.html');
     if (!fs.existsSync(htmlPath)) {
         if (config.htmlTemplatePath) {
-            throw new Error(
-                `${chalk.green('htmlTemplatePath')}: ${chalk.yellow.underline(config.htmlTemplatePath)} 目录不存在`,
-            );
+            throw new Error(`${chalk.green('htmlTemplatePath')}: ${chalk.yellow.underline(htmlPath)} 目录不存在`);
         }
         throw new Error(
             `html 模板路径找不到，请检查 ${chalk.yellow.underline(
@@ -53,7 +50,7 @@ export default {
     appPath: resolveApp('.'),
     appBuild: resolveApp(config.buildDir),
     appHtml: resolveHtmlTemplatePath(),
-    appIndexJs: resolveModule(resolveApp, 'src/containers/index'),
+    appIndexJs: resolveModule(resolveApp, 'src/index'),
     appPackageJson: resolveApp('package.json'),
     appPublic: resolveApp('public'),
     appSrc: resolveApp('src'),

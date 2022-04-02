@@ -4,6 +4,7 @@ import { CaibeikeScriptsConfig } from '../typings';
 import merge from '../utils/merge';
 
 const defaultconfig = {
+    // entry: 'src/index',
     devServer: {
         port: 3100,
         host: '0.0.0.0',
@@ -18,6 +19,7 @@ const defaultconfig = {
     modifyVars: {},
     babel: {},
     postcss: {},
+    reactRouter3: false,
 };
 
 const configPath = path.resolve(process.cwd(), 'caibeike-scripts.config.js');

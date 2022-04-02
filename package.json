@@ -1,6 +1,6 @@
 {
     "name": "@cbk/webpack-scripts",
-    "version": "0.1.2",
+    "version": "1.0.0",
     "description": "彩贝壳前端 react 项目 webpack 启动器",
     "author": {
         "name": "星星",
@@ -10,6 +10,7 @@
         "cbk": "./bin/caibeike-scripts.js"
     },
     "scripts": {
+        "dev": "rollup -w -c rollup.config.js",
         "build": "rollup -c rollup.config.js",
         "lint": "eslint . --ext js,ts,tsx",
         "format": "prettier --write **/*.{js,ts} && eslint . --ext js,ts --fix",
@@ -54,11 +55,13 @@
         "@babel/preset-typescript": "^7.16.7",
         "@pmmmwh/react-refresh-webpack-plugin": "^0.5.4",
         "@types/babel__core": "^7.1.19",
+        "@types/html-webpack-plugin": "^3.2.6",
         "@types/react-dev-utils": "^9.0.10",
         "@types/webpack": "4.4.0",
         "@types/webpack-dev-server": "3.9.0",
         "@typescript-eslint/eslint-plugin": "^5.15.0",
         "@typescript-eslint/parser": "^5.15.0",
+        "@winme/react-overlay-webpack-plugin": "^1.1.0",
         "antd-local-icon": "^0.1.3",
         "autoprefixer": "^9.4.6",
         "babel-loader": "^8.0.6",
@@ -88,7 +91,6 @@
         "precss": "^3.1.2",
         "progress-bar-webpack-plugin": "^2.1.0",
         "react-dev-utils": "11.0.3",
-        "react-error-overlay-webpack-plugin": "^1.0.6",
         "react-refresh": "^0.11.0",
         "style-loader": "0.23.0",
         "terser-webpack-plugin": "^1.4.0",
@@ -109,8 +111,10 @@
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^13.1.3",
         "@rollup/plugin-replace": "^4.0.0",
+        "@rollup/plugin-typescript": "^8.3.1",
         "esbuild": "^0.14.28",
         "rollup": "^2.70.1",
-        "rollup-plugin-esbuild": "^4.8.2"
+        "rollup-plugin-esbuild": "^4.8.2",
+        "rollup-plugin-node-externals": "^4.0.0"
     }
 }

@@ -1,16 +1,16 @@
-import esbuild from 'rollup-plugin-esbuild';
 import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
-import pkg from './package.json';
 import fs from 'fs';
+import externals from 'rollup-plugin-node-externals';
 
 fs.rmSync('./lib', { recursive: true, force: true });
-const external = Object.keys(pkg.dependencies);
 const plugins = [
+    externals(),
     commonjs(),
+    typescript(),
     json(),
-    esbuild(),
     resolve({
         preferBuiltins: true,
     }),
@@ -24,9 +24,9 @@ const config = {
         format: 'cjs',
         dir: 'lib',
         exports: 'named',
+        preserveModules: true,
     },
     plugins,
-    external,
 };
 
 module.exports = config;

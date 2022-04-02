@@ -1,10 +1,11 @@
 import path from 'path';
+import fs from 'fs';
 import chalk from 'chalk';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-import ErrorOverlayPlugin from 'react-error-overlay-webpack-plugin';
+import ErrorOverlayPlugin from '@winme/react-overlay-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import FilterWarningsPlugin from 'webpack-filter-warnings-plugin';
@@ -23,7 +24,7 @@ import config from '../config/getConfig';
 import type { Configuration } from 'webpack';
 
 const {
-    devServer: { port: DEFAULT_PORT, https: HTTPS },
+    devServer: DEV_SERVSER,
     publicPath: PUBLIC_PATH,
     sourcemap: SOURCEMAP,
     modifyVars: MODIFY_VARS,
@@ -31,19 +32,56 @@ const {
     babel: BABEL,
     postcss: POSTCSS,
     webpack: WEBPACK,
+    reactRouter3: REACT_ROUTER3,
 } = config;
+const { port: DEFAULT_PORT, https: HTTPS } = DEV_SERVSER;
+
+const ENTRY = config.entry || paths.appIndexJs;
 
 const env = getClientEnvironment();
 const protocol = HTTPS === 'true' ? 'https' : 'http';
+const resolve = (absPath: any) => path.resolve(process.cwd(), absPath);
+const checkEntryExist = (entryPath: string) => {
+    const userEntryAbsPath = resolve(entryPath);
+
+    if (!fs.existsSync(entryPath ? userEntryAbsPath : paths.appIndexJs)) {
+        if (entryPath) {
+            console.error(`${chalk.green('entry')}: ${chalk.yellow.underline(userEntryAbsPath)} 目录不存在`);
+        } else {
+            console.error(
+                `默认入口文件路径 ${chalk.green('src/index')} 不存在，或重新配置 ${chalk.cyan('entry')} 属性`,
+            );
+        }
+        process.exit(1);
+    }
+};
 
 export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
     const isProd = webpackEnv === 'production';
 
+    const HtmlWebpackPluginOptions = {
+        template: paths.appHtml,
+        ...(isProd
+            ? {
+                  minify: {
+                      removeComments: true,
+                      collapseWhitespace: true,
+                      removeRedundantAttributes: true,
+                      useShortDoctype: true,
+                      removeEmptyAttributes: true,
+                      removeStyleLinkTypeAttributes: true,
+                      keepClosingSlash: true,
+                      minifyJS: true,
+                      minifyCSS: true,
+                      minifyURLs: true,
+                  },
+              }
+            : undefined),
+    };
+
     const webpackConfig: Configuration = {
         mode: process.env.NODE_ENV as Configuration['mode'],
-        entry: {
-            index: ['@babel/polyfill', paths.appIndexJs],
-        },
+        entry: [],
         output: {
             path: isProd ? paths.appBuild : undefined,
             publicPath: PUBLIC_PATH,
@@ -123,6 +161,7 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
             !isProd && new webpack.HotModuleReplacementPlugin(),
             !isProd && new ErrorOverlayPlugin(),
             !isProd &&
+                !REACT_ROUTER3 &&
                 new ReactRefreshWebpackPlugin({
                     overlay: false,
                 }),
@@ -158,13 +197,14 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
                     ...env.stringified['process.env'],
                 },
             }),
-            new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+            new InterpolateHtmlPlugin(HtmlWebpackPlugin as any, env.raw),
             // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
             new webpack.ProvidePlugin({
                 $: 'jquery',
                 jQuery: 'jquery',
             }),
+            new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
         ].filter(Boolean),
         resolve: {
             modules: [paths.appSrc, 'node_modules'],
@@ -182,11 +222,11 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
                 '.css',
             ],
             alias: {
-                '@': path.resolve(process.cwd(), 'src'),
-                '@base': path.resolve(process.cwd()),
-                '~': path.resolve(process.cwd(), 'assets'),
-                assets: path.resolve(process.cwd(), 'assets'),
-                location: path.resolve(process.cwd(), 'location.js'),
+                '@': resolve('src'),
+                '@base': resolve(''),
+                '~': resolve('assets'),
+                assets: resolve('assets'),
+                location: resolve('location.js'),
                 ...ALIAS,
             },
         },
@@ -245,28 +285,8 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
         },
     };
 
-    if (webpackConfig.entry && Object.keys(webpackConfig.entry).length === 1) {
-        webpackConfig.plugins?.push(
-            new HtmlWebpackPlugin({
-                template: paths.appHtml,
-                ...(isProd
-                    ? {
-                          minify: {
-                              removeComments: true,
-                              collapseWhitespace: true,
-                              removeRedundantAttributes: true,
-                              useShortDoctype: true,
-                              removeEmptyAttributes: true,
-                              removeStyleLinkTypeAttributes: true,
-                              keepClosingSlash: true,
-                              minifyJS: true,
-                              minifyCSS: true,
-                              minifyURLs: true,
-                          },
-                      }
-                    : undefined),
-            }) as any,
-        );
+    if (typeof config.entry === 'string') {
+        checkEntryExist(config.entry);
     }
 
     // 允许外部配置文件二次配置 webpack
@@ -281,6 +301,55 @@ export default (webpackEnv: NodeJS.ProcessEnv['NODE_ENV']): Configuration => {
     } else {
         mergedWebpackConfig = webpackConfig;
     }
+
+    // react-router3 将使用 webpack 原生热更新（react-refresh 不支持 router 3）
+    const entites = REACT_ROUTER3
+        ? ['@babel/polyfill', 'webpack-dev-server/client' + '?/', 'webpack/hot/dev-server']
+        : ['@babel/polyfill'];
+    let entry: any;
+    // 处理不同类型的 entry
+    if (typeof ENTRY === 'string') {
+        entry = [...entites, resolve(ENTRY)];
+    } else if (Array.isArray(ENTRY)) {
+        entry = [...entites, ...ENTRY.map(e => resolve(e))];
+    } else if (typeof ENTRY === 'object' && !Array.isArray(ENTRY)) {
+        entry = {};
+        // 对象模式 entry， 多入口打包
+        for (const key in ENTRY) {
+            const value = ENTRY[key];
+            if (typeof value === 'string') {
+                entry[key] = [...entites, resolve(ENTRY[key])];
+            } else if (Array.isArray(value)) {
+                entry[key] = [...entites, value.map(e => resolve(e))];
+            } else if (typeof value === 'object' && !Array.isArray(value)) {
+                entry[key] = [...entites, resolve(value.entry)];
+
+                // 删除掉原本的 HtmlWebpackPlugin
+                const sourceHtmlPluginIndex = webpackConfig.plugins?.findIndex(
+                    ({ constructor }) => constructor && constructor.name === 'HtmlWebpackPlugin',
+                );
+                if (sourceHtmlPluginIndex && sourceHtmlPluginIndex >= 0) {
+                    webpackConfig.plugins?.splice(sourceHtmlPluginIndex, 1);
+                }
+
+                // 为多入口的每个入口单独设置 html 模板
+                webpackConfig.plugins?.push(
+                    new HtmlWebpackPlugin({
+                        ...HtmlWebpackPluginOptions,
+                        template: value.htmlTemplatePath,
+                    }) as any,
+                );
+            } else {
+                console.error('暂不支持的 entry 类型');
+                process.exit(1);
+            }
+        }
+    } else {
+        console.error('暂不支持的 entry 类型');
+        process.exit(1);
+    }
+
+    webpackConfig.entry = entry;
 
     return mergedWebpackConfig;
 };
