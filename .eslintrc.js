@@ -1,3 +1,3 @@
 module.exports = {
-    extends: ['@cbk/eslint-config'],
+  extends: ['@winme/eslint-config-react-base'],
 };

@@ -1,32 +1,32 @@
 import fs from 'fs';
 import path from 'path';
-import { CaibeikeScriptsConfig } from '../typings';
+import { WinmeScriptsConfig } from '../typings';
 import merge from '../utils/merge';
 
 const defaultconfig = {
-    // entry: 'src/index',
-    devServer: {
-        port: 3100,
-        host: '0.0.0.0',
-    },
-    buildDir: 'dist',
-    publicPath: '/',
-    htmlTemplatePath: '',
-    sourcemap: false,
-    // webpack: () => {},
-    disabledBundleSize: false,
-    alias: {},
-    modifyVars: {},
-    babel: {},
-    postcss: {},
-    reactRouter3: false,
+  // entry: 'src/index',
+  devServer: {
+    port: 3000,
+    host: '0.0.0.0',
+  },
+  buildDir: 'dist',
+  publicPath: '/',
+  htmlTemplatePath: '',
+  sourcemap: false,
+  // webpack: () => {},
+  disabledBundleSize: false,
+  alias: {},
+  modifyVars: {},
+  babel: {},
+  postcss: {},
+  reactRouter3: false,
 };
 
-const configPath = path.resolve(process.cwd(), 'caibeike-scripts.config.js');
+const configPath = path.resolve(process.cwd(), 'winme-scripts.config.js');
 
 const config = fs.readFileSync(configPath)
-    ? merge(defaultconfig, require(configPath) as CaibeikeScriptsConfig)
-    : merge(defaultconfig, {} as CaibeikeScriptsConfig);
+  ? merge(defaultconfig, require(configPath) as WinmeScriptsConfig)
+  : merge(defaultconfig, {} as WinmeScriptsConfig);
 
 config.devServer.port = parseInt(config.devServer.port.toString(), 10);
 
