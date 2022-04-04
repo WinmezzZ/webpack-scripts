@@ -1,4 +1,4 @@
-# winme-scripts
+# @winme/webpack-scripts
 
 快速搭建 `webpack` `react` 环境的命令行脚本工具
 
