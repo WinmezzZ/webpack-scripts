@@ -19,7 +19,7 @@ const config = {
   input: ['./scripts/start.ts', './scripts/build.ts', './src/index.ts'],
 
   output: {
-    format: 'es',
+    format: 'cjs',
     dir: 'lib',
     exports: 'named',
     preserveModules: true,

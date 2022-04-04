@@ -1,6 +1,6 @@
 {
   "name": "@winme/webpack-scripts",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "快速搭建 `webpack` `react` 环境的命令行脚本工具",
   "bin": {
     "winme": "./bin/winme-scripts.js"
