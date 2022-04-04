@@ -1,6 +1,6 @@
 # winme-scripts
 
-彩贝壳前端项目 webpack 启动器
+快速搭建 `webpack` `react` 环境的命令行脚本工具
 
 ## 安装
 
